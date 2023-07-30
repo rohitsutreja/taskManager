@@ -29,13 +29,21 @@ const createNewNote = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: 'All fields are required' })
     }
 
+
     const duplicate = await Note.findOne({ title }).lean().exec()
+
 
     if (duplicate) {
         return res.status(409).json({ message: 'Duplicate note title' })
     }
 
-    const note = await Note.create({ user, title, text })
+
+    
+    const note = await Note.create({ user , title , text})
+
+    
+    
+    
 
     if (note) { 
         return res.status(201).json({ message: 'New note created' })
@@ -66,7 +74,11 @@ const updateNote = asyncHandler(async (req, res) => {
         return res.status(409).json({ message: 'Duplicate note title' })
     }
 
+
+    console.log(user._id)
     note.user = user
+
+    console.log(user)
     note.title = title
     note.text = text
     note.completed = completed
